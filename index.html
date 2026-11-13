@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ABYSS : THE ENDLESS DESCENT</title>
+    <meta name="description" content="고품질 픽셀 아트 액션 로그라이크 던전 RPG — 끝없는 심연을 탐험하고, 무기와 스킬, 유물을 조합해 고대의 존재에 맞서세요." />
+    <meta property="og:title" content="ABYSS : THE ENDLESS DESCENT" />
+    <meta property="og:description" content="고품질 픽셀 아트 액션 로그라이크 던전 RPG" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="bg-[#07090e] text-[#eef2f7] overflow-hidden select-none">
+    <div id="abyss-app" class="relative w-screen h-screen overflow-hidden bg-[#07090e]">
+      <canvas id="game-canvas" class="block w-full h-full"></canvas>
+      <div id="hud-layer" class="pointer-events-none fixed inset-0 z-10 hidden"></div>
+      <div id="mobile-controls" class="pointer-events-none fixed inset-0 z-20 hidden"></div>
+      <div id="overlay-layer" class="fixed inset-0 z-30"></div>
+      <div id="toast-layer" class="pointer-events-none fixed top-20 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

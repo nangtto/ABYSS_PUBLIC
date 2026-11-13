@@ -1,0 +1,6 @@
+{
+  "name": "ABYSS : THE ENDLESS DESCENT",
+  "description": "고품질 픽셀 아트 액션 로그라이크 던전 RPG — 끝없는 심연을 탐험하고, 무기와 스킬, 유물을 조합해 고대의 존재에 맞서세요.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
