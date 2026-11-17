@@ -29,9 +29,10 @@ export class DungeonGenerator {
   public generateFloor(floor: number, luckBonusPct = 0): FloorMap {
     const biome = getBiomeForFloor(floor);
     const hasBoss = isBossFloor(floor);
+    const floorVariance = Math.random() < 0.5 ? 0 : 1 + Math.floor(Math.random() * 2);
     const targetRoomCount = hasBoss
-      ? Math.min(10, 6 + Math.floor(floor / 4))
-      : Math.min(9, 5 + Math.floor(floor / 3));
+      ? Math.min(12, 6 + Math.floor(floor / 4) + floorVariance)
+      : Math.min(11, 5 + Math.floor(floor / 3) + floorVariance);
 
     const coords = new Map<string, { gx: number; gy: number; type: RoomType }>();
     const key = (gx: number, gy: number) => `${gx},${gy}`;
@@ -50,12 +51,9 @@ export class DungeonGenerator {
         const ny = base.gy + d.dy;
         const k = key(nx, ny);
         if (!coords.has(k)) {
-          // Avoid 2x2 dense clusters for cleaner branching
-          let neighborCount = 0;
-          for (const check of DIRS) {
-            if (coords.has(key(nx + check.dx, ny + check.dy))) neighborCount++;
-          }
-          if (neighborCount <= 1 || Math.random() < 0.25) {
+          const neighborCount = DIRS.filter((check) => coords.has(key(nx + check.dx, ny + check.dy))).length;
+          const shouldOpen = neighborCount <= 1 || Math.random() < 0.35;
+          if (shouldOpen) {
             coords.set(k, { gx: nx, gy: ny, type: 'combat' });
             frontier.push({ gx: nx, gy: ny });
             added = true;
@@ -63,12 +61,29 @@ export class DungeonGenerator {
           }
         }
       }
+
       if (!added) {
         frontier.splice(idx, 1);
       }
     }
 
-    // Assign special room types based on distance from start
+    if (coords.size < 5) {
+      const extraOffsets = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1],
+        [1, 1],
+        [-1, -1],
+      ];
+      for (const [dx, dy] of extraOffsets) {
+        const k = key(dx, dy);
+        if (!coords.has(k) && coords.size < targetRoomCount) {
+          coords.set(k, { gx: dx, gy: dy, type: 'combat' });
+        }
+      }
+    }
+
     const entries = Array.from(coords.values()).filter((c) => !(c.gx === 0 && c.gy === 0));
     entries.sort((a, b) => Math.abs(b.gx) + Math.abs(b.gy) - (Math.abs(a.gx) + Math.abs(a.gy)));
 
@@ -83,23 +98,26 @@ export class DungeonGenerator {
       }
     }
 
-    // Assign treasure, shop, rest, event, secret rooms among remaining rooms
     const specials: RoomType[] = ['treasure', 'shop'];
     if (floor >= 2) specials.push('event');
     if (floor % 2 === 0 || hasBoss) specials.push('rest');
-    if (Math.random() < 0.45 && entries.length >= 5) specials.push('secret');
+    if (floor >= 3 && Math.random() < 0.7) specials.push('secret');
+    if (floor >= 4 && Math.random() < 0.5) specials.push('rest');
 
     let sIdx = 0;
     for (let i = 1; i < entries.length && sIdx < specials.length; i++) {
-      // Keep at least half the rooms as combat/elite
-      if (i % 2 === 1 || entries.length - i > specials.length - sIdx + 1) {
-        entries[i].type = specials[sIdx];
-        sIdx++;
+      const target = entries[i];
+      if (target.type !== 'boss' && target.type !== 'elite') {
+        const shouldConvert = i % 2 === 1 || entries.length - i > specials.length - sIdx + 1;
+        if (shouldConvert) {
+          target.type = specials[sIdx];
+          sIdx++;
+        }
       }
     }
-    // Add extra elite room on deeper floors
+
     for (let i = 1; i < entries.length; i++) {
-      if (entries[i].type === 'combat' && floor >= 3 && Math.random() < Math.min(0.35, 0.12 + floor * 0.015)) {
+      if (entries[i].type === 'combat' && floor >= 3 && Math.random() < Math.min(0.38, 0.1 + floor * 0.016)) {
         entries[i].type = 'elite';
         break;
       }
@@ -160,7 +178,6 @@ export class DungeonGenerator {
       });
     }
 
-    // If not a boss floor, place the descend portal inside the farthest elite room (spawns upon clear)
     return {
       floor,
       rooms,
@@ -192,9 +209,8 @@ export class DungeonGenerator {
     const cy = height / 2;
 
     if (type === 'combat' || type === 'elite') {
-      const pattern = Math.floor(Math.random() * 4);
+      const pattern = Math.floor(Math.random() * 5);
       if (pattern === 0) {
-        // 4 corner pillars
         const dx = width * 0.25;
         const dy = height * 0.25;
         obstacles.push(
@@ -204,37 +220,46 @@ export class DungeonGenerator {
           { x: cx + dx - 22, y: cy + dy - 22, w: 44, h: 44, kind: 'pillar' }
         );
       } else if (pattern === 1) {
-        // Twin flanking crystals
         obstacles.push(
           { x: cx - 170, y: cy - 28, w: 48, h: 56, kind: 'crystal' },
           { x: cx + 122, y: cy - 28, w: 48, h: 56, kind: 'crystal' }
         );
       } else if (pattern === 2) {
-        // Offset cover blocks
         obstacles.push(
           { x: cx - 140, y: cy - 110, w: 56, h: 40, kind: 'crate' },
           { x: cx + 84, y: cy + 70, w: 56, h: 40, kind: 'crate' }
         );
+      } else if (pattern === 3) {
+        obstacles.push(
+          { x: cx - 180, y: cy - 60, w: 36, h: 120, kind: 'pillar' },
+          { x: cx + 144, y: cy - 60, w: 36, h: 120, kind: 'pillar' }
+        );
+      } else {
+        obstacles.push(
+          { x: cx - 96, y: cy - 70, w: 48, h: 48, kind: 'crystal' },
+          { x: cx + 48, y: cy + 25, w: 48, h: 48, kind: 'crystal' }
+        );
       }
 
-      if (hazardType !== 'none' && Math.random() < 0.65) {
-        const count = 1 + Math.floor(Math.random() * 2);
+      if (hazardType !== 'none' && Math.random() < 0.7) {
+        const count = 1 + Math.floor(Math.random() * 3);
         for (let i = 0; i < count; i++) {
           hazards.push({
             x: cx + (Math.random() - 0.5) * (width * 0.45),
             y: cy + (Math.random() - 0.5) * (height * 0.45),
-            radius: 42 + Math.random() * 18,
+            radius: 36 + Math.random() * 22,
             kind: hazardType,
           });
         }
       }
     } else if (type === 'boss') {
-      // 4 spacious outer pillars for boss cover
       obstacles.push(
         { x: 180, y: 150, w: 48, h: 48, kind: 'pillar' },
         { x: width - 228, y: 150, w: 48, h: 48, kind: 'pillar' },
         { x: 180, y: height - 198, w: 48, h: 48, kind: 'pillar' },
-        { x: width - 228, y: height - 198, w: 48, h: 48, kind: 'pillar' }
+        { x: width - 228, y: height - 198, w: 48, h: 48, kind: 'pillar' },
+        { x: cx - 70, y: cy - 110, w: 44, h: 44, kind: 'statue' },
+        { x: cx + 26, y: cy + 70, w: 44, h: 44, kind: 'statue' }
       );
     } else if (type === 'treasure') {
       props.push({
