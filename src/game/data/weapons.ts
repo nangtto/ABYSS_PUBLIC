@@ -170,43 +170,62 @@ export const EQUIPMENT_SET_DEFS: Record<
     stats2: { speedPct: 12, critChance: 8 },
     stats4: { attackSpeedPct: 22, lifesteal: 4 },
   },
+  abyss_witch: {
+    name: '심연 마녀 세트',
+    bonus2: '2세트: 마법 피해 +18%, 체력 회복 +8%',
+    bonus4: '4세트: 스킬 쿨타임 -15%, 치명타 피해 +28%',
+    stats2: { skillDamagePct: 18, maxHp: 12 },
+    stats4: { cooldownReduction: 15, critDamage: 28 },
+  },
+  sunforge: {
+    name: '태양강철 세트',
+    bonus2: '2세트: 공격력 +12%, 방어력 +8',
+    bonus4: '4세트: 스킬 피해 +20%, 생명력 흡수 +5%',
+    stats2: { attackPct: 12, defense: 8 },
+    stats4: { skillDamagePct: 20, lifesteal: 5 },
+  },
 };
 
 export const EQUIPMENT_TEMPLATES: EquipmentTemplate[] = [
-  // Starter & Core Weapons
   { id: 'wpn_iron_sword', name: '수호자의 장검', slot: 'weapon', weaponKind: 'sword', minRarity: 'common', baseAttack: 8 },
-  { id: 'wpn_abyss_sword', name: '심연의 기사검', slot: 'weapon', weaponKind: 'sword', minRarity: 'rare', setId: 'abyss_knight', baseAttack: 16, specialEffectId: 'kill_explosion', specialEffectDesc: '적 처치 시 25% 확률로 암흑 폭발 발생' },
-  { id: 'wpn_titan_greatsword', name: '거인의 대검', slot: 'weapon', weaponKind: 'greatsword', minRarity: 'uncommon', baseAttack: 14, specialEffectId: 'heavy_cleave', specialEffectDesc: '공격 적중 시 20% 확률로 추가 충격파' },
+  { id: 'wpn_abyss_sword', name: '심연의 기사검', slot: 'weapon', weaponKind: 'sword', minRarity: 'rare', setId: 'abyss_knight', baseAttack: 16, specialEffectId: 'kill_explosion', specialEffectDesc: '처치 시 폭발이 일어난다.' },
+  { id: 'wpn_titan_greatsword', name: '거인의 대검', slot: 'weapon', weaponKind: 'greatsword', minRarity: 'uncommon', baseAttack: 14, specialEffectId: 'heavy_cleave', specialEffectDesc: '강한 내리치기로 적을 분쇄한다.' },
   { id: 'wpn_shadow_dagger', name: '그림자 쌍단검', slot: 'weapon', weaponKind: 'dagger', minRarity: 'common', baseAttack: 6 },
-  { id: 'wpn_phantom_fang', name: '망령의 송곳니', slot: 'weapon', weaponKind: 'dagger', minRarity: 'rare', setId: 'phantom_stalker', baseAttack: 14, specialEffectId: 'crit_bleed', specialEffectDesc: '치명타 적중 시 추가 30% 암흑 피해' },
+  { id: 'wpn_phantom_fang', name: '망령의 송곳니', slot: 'weapon', weaponKind: 'dagger', minRarity: 'rare', setId: 'phantom_stalker', baseAttack: 14, specialEffectId: 'crit_bleed', specialEffectDesc: '치명타 시 출혈 효과.' },
   { id: 'wpn_silver_spear', name: '은빛 결계창', slot: 'weapon', weaponKind: 'spear', minRarity: 'common', baseAttack: 9 },
-  { id: 'wpn_dragon_lance', name: '용린의 장창', slot: 'weapon', weaponKind: 'spear', minRarity: 'epic', setId: 'abyss_knight', baseAttack: 20, specialEffectId: 'pierce_burn', specialEffectDesc: '직선 공격 시 적에게 화염 폭발 유발' },
+  { id: 'wpn_dragon_lance', name: '용린의 장창', slot: 'weapon', weaponKind: 'spear', minRarity: 'epic', setId: 'abyss_knight', baseAttack: 20, specialEffectId: 'pierce_burn', specialEffectDesc: '관통 시 화염을 남긴다.' },
   { id: 'wpn_heavy_axe', name: '피의 전투도끼', slot: 'weapon', weaponKind: 'axe', minRarity: 'common', baseAttack: 11 },
   { id: 'wpn_arcane_staff', name: '비전의 지팡이', slot: 'weapon', weaponKind: 'staff', minRarity: 'common', baseAttack: 8 },
-  { id: 'wpn_void_staff', name: '공허의 대지팡이', slot: 'weapon', weaponKind: 'staff', minRarity: 'rare', setId: 'arcane_scholar', baseAttack: 17, specialEffectId: 'chain_spark', specialEffectDesc: '마법탄 적중 시 30% 확률로 번개 연쇄' },
+  { id: 'wpn_void_staff', name: '공허의 대지팡이', slot: 'weapon', weaponKind: 'staff', minRarity: 'rare', setId: 'arcane_scholar', baseAttack: 17, specialEffectId: 'chain_spark', specialEffectDesc: '마법이 연쇄로 번진다.' },
   { id: 'wpn_hunter_bow', name: '추적자의 장궁', slot: 'weapon', weaponKind: 'bow', minRarity: 'common', baseAttack: 8 },
-  { id: 'wpn_tempest_bow', name: '폭풍의 활', slot: 'weapon', weaponKind: 'bow', minRarity: 'rare', setId: 'phantom_stalker', baseAttack: 16, specialEffectId: 'split_arrow', specialEffectDesc: '25% 확률로 추가 유도 화살 발사' },
+  { id: 'wpn_tempest_bow', name: '폭풍의 활', slot: 'weapon', weaponKind: 'bow', minRarity: 'rare', setId: 'phantom_stalker', baseAttack: 16, specialEffectId: 'split_arrow', specialEffectDesc: '화살이 부서져 추가 피해를 준다.' },
   { id: 'wpn_siege_crossbow', name: '심연 파쇄 석궁', slot: 'weapon', weaponKind: 'crossbow', minRarity: 'uncommon', baseAttack: 13 },
   { id: 'wpn_iron_gauntlet', name: '강철 투혼 건틀릿', slot: 'weapon', weaponKind: 'gauntlet', minRarity: 'common', baseAttack: 7 },
-  { id: 'wpn_abyss_spellblade', name: '심연의 마법검', slot: 'weapon', weaponKind: 'spellblade', minRarity: 'rare', setId: 'arcane_scholar', baseAttack: 15, specialEffectId: 'wave_slash', specialEffectDesc: '검기 피해량 25% 증가' },
+  { id: 'wpn_abyss_spellblade', name: '심연의 마법검', slot: 'weapon', weaponKind: 'spellblade', minRarity: 'rare', setId: 'arcane_scholar', baseAttack: 15, specialEffectId: 'wave_slash', specialEffectDesc: '검기가 전방에 충격파를 만든다.' },
+  { id: 'wpn_solar_flare', name: '태양 파열검', slot: 'weapon', weaponKind: 'sword', minRarity: 'epic', setId: 'sunforge', baseAttack: 19, specialEffectId: 'solar_burst', specialEffectDesc: '기본 공격이 태양 광선을 뿜는다.' },
+  { id: 'wpn_abyss_reaper', name: '심연의 집행자', slot: 'weapon', weaponKind: 'axe', minRarity: 'legendary', setId: 'abyss_knight', baseAttack: 25, specialEffectId: 'execute_edge', specialEffectDesc: '체력이 낮은 적에게 추가 피해.' },
+  { id: 'wpn_starlit_rod', name: '별빛 마법봉', slot: 'weapon', weaponKind: 'staff', minRarity: 'epic', setId: 'abyss_witch', baseAttack: 18, specialEffectId: 'star_shard', specialEffectDesc: '마법 탄환이 추가로 분열된다.' },
 
-  // Armor
   { id: 'arm_leather', name: '모험가의 경갑', slot: 'armor', minRarity: 'common', baseHp: 20, baseDef: 3 },
   { id: 'arm_abyss_plate', name: '심연 기사의 판금갑옷', slot: 'armor', minRarity: 'rare', setId: 'abyss_knight', baseHp: 55, baseDef: 8 },
   { id: 'arm_arcane_robe', name: '고대 현자의 로브', slot: 'armor', minRarity: 'rare', setId: 'arcane_scholar', baseHp: 35, baseDef: 5 },
   { id: 'arm_shadow_cloak', name: '그림자 추적자의 외투', slot: 'armor', minRarity: 'rare', setId: 'phantom_stalker', baseHp: 40, baseDef: 5 },
+  { id: 'arm_sunwall_mail', name: '태양 방패 메일', slot: 'armor', minRarity: 'epic', setId: 'sunforge', baseHp: 72, baseDef: 11 },
+  { id: 'arm_void_wisp', name: '공허의 위습 가운', slot: 'armor', minRarity: 'epic', setId: 'abyss_witch', baseHp: 60, baseDef: 9 },
 
-  // Rings
   { id: 'rng_iron', name: '결의의 반지', slot: 'ring', minRarity: 'common', baseAttack: 3 },
   { id: 'rng_abyss_seal', name: '심연 기사의 인장 반지', slot: 'ring', minRarity: 'rare', setId: 'abyss_knight', baseAttack: 8 },
   { id: 'rng_arcane_band', name: '고대 현자의 마력 반지', slot: 'ring', minRarity: 'rare', setId: 'arcane_scholar', baseAttack: 7 },
   { id: 'rng_phantom_signet', name: '그림자 추적자의 반지', slot: 'ring', minRarity: 'rare', setId: 'phantom_stalker', baseAttack: 8 },
+  { id: 'rng_solstice_ring', name: '솔스티스 결속 반지', slot: 'ring', minRarity: 'epic', setId: 'sunforge', baseAttack: 11 },
+  { id: 'rng_moon_tether', name: '달빛 속박 반지', slot: 'ring', minRarity: 'epic', setId: 'abyss_witch', baseAttack: 12 },
 
-  // Necklaces
   { id: 'nck_bone', name: '고대 뼈 부적', slot: 'necklace', minRarity: 'common', baseHp: 15, baseDef: 2 },
   { id: 'nck_abyss_pendant', name: '심연 기사의 펜던트', slot: 'necklace', minRarity: 'rare', setId: 'abyss_knight', baseHp: 40, baseDef: 5 },
   { id: 'nck_arcane_amulet', name: '고대 현자의 아뮬렛', slot: 'necklace', minRarity: 'rare', setId: 'arcane_scholar', baseHp: 30, baseDef: 4 },
   { id: 'nck_phantom_charm', name: '그림자 추적자의 목걸이', slot: 'necklace', minRarity: 'rare', setId: 'phantom_stalker', baseHp: 35, baseDef: 4 },
+  { id: 'nck_solar_crest', name: '태양의 문장 목걸이', slot: 'necklace', minRarity: 'epic', setId: 'sunforge', baseHp: 48, baseDef: 6 },
+  { id: 'nck_eclipse_talisman', name: '일식 부적', slot: 'necklace', minRarity: 'epic', setId: 'abyss_witch', baseHp: 46, baseDef: 6 },
 ];
 
 const AFFIX_POOL: { label: string; key: keyof StatBonus; min: number; max: number; suffix: string }[] = [
@@ -220,6 +239,9 @@ const AFFIX_POOL: { label: string; key: keyof StatBonus; min: number; max: numbe
   { label: '쿨타임 감소', key: 'cooldownReduction', min: 4, max: 10, suffix: '%' },
   { label: '생명력 흡수', key: 'lifesteal', min: 2, max: 5, suffix: '%' },
   { label: '방어력', key: 'defense', min: 2, max: 6, suffix: '' },
+  { label: '마법 저항', key: 'maxHp', min: 12, max: 28, suffix: '' },
+  { label: '치유 강화', key: 'lifesteal', min: 3, max: 8, suffix: '%' },
+  { label: '기본 공격력', key: 'attack', min: 4, max: 16, suffix: '' },
 ];
 
 const RARITY_MULT: Record<Rarity, number> = {
@@ -249,10 +271,10 @@ export function nextUid(prefix = 'eq'): string {
 export function rollRarity(floor: number, luckBonusPct = 0): Rarity {
   const luck = 1 + luckBonusPct / 100;
   const r = Math.random();
-  const mythicChance = Math.min(0.06, Math.max(0, (floor - 12) * 0.003) * luck);
-  const legChance = Math.min(0.14, Math.max(0.01, (floor - 4) * 0.006) * luck);
-  const epicChance = Math.min(0.24, (0.04 + floor * 0.009) * luck);
-  const rareChance = Math.min(0.35, (0.14 + floor * 0.012) * luck);
+  const mythicChance = Math.min(0.08, Math.max(0, (floor - 12) * 0.0035) * luck);
+  const legChance = Math.min(0.18, Math.max(0.02, (floor - 6) * 0.0065) * luck);
+  const epicChance = Math.min(0.28, (0.05 + floor * 0.01) * luck);
+  const rareChance = Math.min(0.42, (0.17 + floor * 0.014) * luck);
   const uncChance = 0.34;
 
   if (r < mythicChance) return 'mythic';
@@ -283,17 +305,17 @@ export function createItemFromTemplate(
   if (tpl.baseHp) baseStats.maxHp = Math.round(tpl.baseHp * mult);
   if (tpl.baseDef) baseStats.defense = Math.round(tpl.baseDef * (1 + rIdx * 0.35 + (floor - 1) * 0.04));
 
-  const affixCount = Math.min(4, Math.max(1, rIdx));
+  const affixCount = Math.min(5, Math.max(1, rIdx + 1));
   const shuffled = [...AFFIX_POOL].sort(() => Math.random() - 0.5).slice(0, affixCount);
   const affixes = shuffled.map((a) => {
-    const val = Math.round((a.min + Math.random() * (a.max - a.min)) * (1 + rIdx * 0.2));
+    const val = Math.round((a.min + Math.random() * (a.max - a.min)) * (1 + rIdx * 0.22));
     return {
       label: `${a.label} +${val}${a.suffix}`,
       stats: { [a.key]: val } as StatBonus,
     };
   });
 
-  const prefix = tpl.name.includes('심연') || tpl.name.includes('고대') || tpl.name.includes('그림자')
+  const prefix = tpl.name.includes('심연') || tpl.name.includes('고대') || tpl.name.includes('그림자') || tpl.name.includes('태양') || tpl.name.includes('별빛')
     ? ''
     : RARITY_PREFIX[rarity];
 
@@ -311,7 +333,7 @@ export function createItemFromTemplate(
     affixes,
     specialEffectId: tpl.specialEffectId,
     specialEffectDesc: tpl.specialEffectDesc,
-    price: Math.round((25 + floor * 12) * RARITY_MULT[rarity]),
+    price: Math.round((25 + floor * 12) * RARITY_MULT[rarity] * 1.2),
   };
 }
 
